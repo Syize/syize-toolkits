@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "syize"
+version = "1.0.0"
+authors = [{name = "Syize", email = "syizeliu@gmail.com"}]
+description = "A tool kit package"
+dependencies =  ["Pillow", "pytesseract"]
+
+[project.scripts]
+picture = "syize.picture_run:run"
+
+[tool.poetry]
+readme = "README.md"
