@@ -63,6 +63,11 @@ def run():
     options = get_options()
     if options['func'] == 'ocr':
         res = picture_to_string(options['input'], options['ocr-text'])
+        # remove '\n' in each line
+        res = res.split('\n')
+        # replace the '' in res with '\n'
+        res = [x if x != '' else '\n' for x in res]
+        res = ' '.join(res)
         to_file(res, options['output'])
     else:
         raise Exception(f"Unknown option {options['func']}")
