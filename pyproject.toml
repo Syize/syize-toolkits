@@ -11,6 +11,7 @@ dependencies =  ["Pillow", "pytesseract"]
 
 [project.scripts]
 picture = "syize.picture_run:run"
+string = "syize.string_run:run"
 
 [tool.poetry]
 readme = "README.md"

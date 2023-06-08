@@ -1,35 +1,31 @@
-from syize.picture import *
 from syize.string import *
-from getopt import getopt, GetoptError
+from syize.utils import *
 from sys import argv
-
-from syize.utils import to_file
+from getopt import getopt, GetoptError
 
 
 def print_help(option: str = None):
     if option is not None:
         print(f"Unknown option {option}")
-    print("Usage for picture\n\n"
+    print("Usage for string\n\n"
           "Basic options\n"
           "\t-h | --help                            print this message\n"
-          "\t-i [filename] | --input [filename]     input picture name\n"
+          "\t-i [input] | --input [input]           input picture name\n"
           "\t-o [filename] | --output [filename]    output filename, default is stdout\n\n"
           "Function options\n"
-          "\t--ocr                                  extract text from picture\n"
-          "\t--ocr-text                             type of text, default is en\n")
+          "\t--format                               format string, remove redundant line break\n")
     exit(0)
-
-
+    
+    
 def get_options() -> dict[str, str]:
     result = {
         'input': None,
         'output': None,
-        'func': None,
-        'ocr-text': 'en'
+        'func': None
     }
 
     try:
-        options, _ = getopt(argv[1:], "hi:o:", ["help", "input=", "output=", "ocr", "ocr-text="])
+        options, _ = getopt(argv[1:], "hi:o:", ["help", "input=", "output=", "format"])
         for key, value in options:
             if key in ["-h", "--help"]:
                 print_help()
@@ -37,10 +33,8 @@ def get_options() -> dict[str, str]:
                 result['input'] = value
             elif key in ["-o", "--output"]:
                 result['output'] = value
-            elif key in ["--ocr"]:
-                result['func'] = "ocr"
-            elif key in ["--ocr-text"]:
-                result['ocr-text'] = value
+            elif key in ["--format"]:
+                result['func'] = "format"
             else:
                 print_help(key)
     except GetoptError:
@@ -56,9 +50,8 @@ def get_options() -> dict[str, str]:
 
 def run():
     options = get_options()
-    if options['func'] == 'ocr':
-        res = picture_to_string(options['input'], options['ocr-text'])
-        res = remove_redundant_linebreak(res)
+    if options['func'] == 'format':
+        res = remove_redundant_linebreak(options['input'])
         to_file(res, options['output'])
     else:
         raise Exception(f"Unknown option {options['func']}")
