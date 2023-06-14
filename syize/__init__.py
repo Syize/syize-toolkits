@@ -1,2 +1,2 @@
 from syize.picture import *
-from syize.utils import prepare_colorbar
+from syize.plot import prepare_colorbar
