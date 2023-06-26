@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "syize"
-version = "1.2.2"
+version = "1.2.3"
 authors = [{name = "Syize", email = "syizeliu@gmail.com"}]
 description = "A tool kit package"
 dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy"]
@@ -12,6 +12,7 @@ dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Ca
 [project.scripts]
 picture = "syize.picture_run:run"
 string = "syize.string_run:run"
+pydiff = "syize.diff_run:run"
 
 [tool.poetry]
 readme = "README.md"
