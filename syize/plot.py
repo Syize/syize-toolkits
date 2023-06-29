@@ -97,7 +97,7 @@ def get_lon_lat_range(central_lon: float, central_lat: float, distance: float) -
     :param central_lon: central longitude
     :param central_lat: central latitude
     :param distance: distance from center point to boundary. unit: kilometers
-    :return:
+    :return: (lon1, lon2), (lat1, lat2)
     """
     radar_position = (central_lat, central_lon)
     lon1 = inverse_haversine(radar_position, distance, np.pi * 1.5)[1]
