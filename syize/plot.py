@@ -4,6 +4,10 @@ from cartopy.mpl.geoaxes import GeoAxes
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.transforms import Bbox
+from haversine import inverse_haversine
+import numpy as np
+import cartopy.crs as ccrs
+from cnmaps import get_adm_maps, draw_maps
 
 
 class OnResize:
@@ -87,4 +91,74 @@ def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes] = None, vertical=Fals
     return cax
 
 
-__all__ = ['prepare_colorbar']
+def get_lon_lat_range(central_lon: float, central_lat: float, distance: float) -> tuple[tuple, tuple]:
+    """
+    calculate the range of longitude and latitude with specific center point and distance
+    :param central_lon: central longitude
+    :param central_lat: central latitude
+    :param distance: distance from center point to boundary. unit: kilometers
+    :return:
+    """
+    radar_position = (central_lat, central_lon)
+    lon1 = inverse_haversine(radar_position, distance, np.pi * 1.5)[1]
+    lon2 = inverse_haversine(radar_position, distance, np.pi * 0.5)[1]
+    lat1 = inverse_haversine(radar_position, distance, np.pi * 1)[0]
+    lat2 = inverse_haversine(radar_position, distance, np.pi * 0)[0]
+    return (lon1, lon2), (lat1, lat2)
+
+
+def add_map_to_axes(fig: Figure, ax: Axes, lon: Union[tuple, list], lat: Union[tuple, list], zorder='top',
+                    map_level: str = None, province: str = None, city: str = None) -> GeoAxes:
+    """
+    add map to radar plot
+    :param city: City name to plot
+    :param province: Province name to plot
+    :param map_level: cnmaps' level
+    :param lat: latitude range, [-90, 90]
+    :param lon: longitude range, [-180, 180]
+    :param zorder: where map line plot. `top` means map plot on the original axes. `bottom` means under the original axes.
+    :param fig:
+    :param ax: original axes
+    :return:
+    """
+    # get original axes position
+    x0 = ax.get_position().x0
+    y0 = ax.get_position().y0
+    x1 = ax.get_position().x1
+    y1 = ax.get_position().y1
+    proj = ccrs.PlateCarree()
+    # add another axes
+    ax2: GeoAxes = fig.add_axes((x0, y0, x1 - x0, y1 - y0), projection=proj)
+    if zorder == 'top':
+        ax.set_zorder(0)
+        ax2.set_zorder(1)
+        ax2.patch.set_alpha(0)
+    elif zorder == 'bottom':
+        ax2.set_zorder(0)
+        ax.set_zorder(1)
+        ax.patch.set_alpha(0)
+    else:
+        raise Exception('zorder should be `top` or `bottom`, but {}'.format(zorder))
+    ax2.axis('off')
+    # plot map
+    draw_maps(get_adm_maps(level=map_level, province=province, city=city), color='black', ax=ax2)
+    diff_lat = lat[1] - lat[0]
+    diff_lon = lon[1] - lon[0]
+    if diff_lat > diff_lon:
+        diff_lon = (diff_lat - diff_lon) / 2
+        lon1 = lon[0] - diff_lon
+        lon2 = lon[1] + diff_lon
+        lat1 = lat[0]
+        lat2 = lat[1]
+    else:
+        diff_lat = - (diff_lat - diff_lon) / 2
+        lat1 = lat[0] - diff_lat
+        lat2 = lat[1] + diff_lat
+        lon1 = lon[0]
+        lon2 = lon[1]
+    ax2.set_xlim(lon1, lon2)
+    ax2.set_ylim(lat1, lat2)
+    return ax2
+
+
+__all__ = ['prepare_colorbar', 'get_lon_lat_range', 'add_map_to_axes']
