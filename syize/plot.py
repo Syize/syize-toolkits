@@ -87,7 +87,8 @@ def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes] = None, vertical=Fals
             x1 + pad + width, y1
         )
     cax = fig.add_axes(cax1_position)
-    fig.canvas.mpl_connect("resize_event", OnResize(ax, cax))
+    if ax is not None:
+        fig.canvas.mpl_connect("resize_event", OnResize(ax, cax))
     return cax
 
 

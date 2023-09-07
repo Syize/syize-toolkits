@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "syize"
-version = "1.2.4"
+version = "1.2.5"
 authors = [{name = "Syize", email = "syizeliu@gmail.com"}]
 description = "A tool kit package"
 dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine", "cnmaps"]
