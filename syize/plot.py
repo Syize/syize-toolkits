@@ -14,11 +14,14 @@ class OnResize:
     """
     listen on figure resize event and change colorbar position and size dynamically
     """
-    def __init__(self, ax: Union[GeoAxes, Axes], cax: Axes):
+    def __init__(self, ax: Union[GeoAxes, Axes, tuple[float, ...]], cax: Axes):
         self.ax = ax
         self.cax = cax
         # get position to calculate width and vertical
-        ax_position = (ax.get_position().x0, ax.get_position().y0, ax.get_position().x1, ax.get_position().y1)
+        if isinstance(ax, tuple):
+            ax_position = ax
+        else:
+            ax_position = (ax.get_position().x0, ax.get_position().y0, ax.get_position().x1, ax.get_position().y1)
         cax_position = (cax.get_position().x0, cax.get_position().y0, cax.get_position().x1, cax.get_position().y1)
         # check if is vertical
         diff_x = cax_position[2] - cax_position[0]
@@ -89,6 +92,8 @@ def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes] = None, vertical=Fals
     cax = fig.add_axes(cax1_position)
     if ax is not None:
         fig.canvas.mpl_connect("resize_event", OnResize(ax, cax))
+    else:
+        fig.canvas.mpl_connect("resize_event", OnResize(position, cax))
     return cax
 
 
