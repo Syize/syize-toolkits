@@ -1,6 +1,5 @@
 from rich import print as rprint
 from os import listdir
-from os.path import isdir
 from getopt import getopt, GetoptError
 from sys import exit, argv
 from syize.diff import diff

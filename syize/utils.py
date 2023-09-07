@@ -2,7 +2,7 @@ def to_file(contents: str, filename: str):
     if filename is None:
         print(contents)
     else:
-        with open(filename, 'w') as f:
+        with open(filename, 'a') as f:
             f.write(contents)
 
 
