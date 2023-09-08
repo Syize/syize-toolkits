@@ -93,7 +93,9 @@ if __name__ == '__main__':
 
 你还可以随意调整图像大小，`colorbar`始终会贴合的很好。
 
-![](./pic/resize-window.mp4)
+
+https://github.com/Syize/syize-toolkits/assets/44666294/25fc0096-6556-4711-8b3d-942716cbc795
+
 
 你也可以为多张图片添加共同的`colorbar`
 
