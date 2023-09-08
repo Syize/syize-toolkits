@@ -8,7 +8,7 @@ version = "1.2.5"
 authors = [{name = "Syize", email = "syizeliu@gmail.com"}]
 description = "A tool kit package"
 dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine", "cnmaps"]
-readme = "README.md"
+readme = "README-pypi.md"
 
 [project.scripts]
 picture = "syize.picture_run:run"
@@ -19,4 +19,4 @@ pydiff = "syize.diff_run:run"
 "Homepage" = "https://github.com/Syize/syize-toolkits"
 
 [tool.poetry]
-readme = "README.md"
+readme = "README-pypi.md"
