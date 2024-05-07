@@ -4,10 +4,10 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "syize"
-version = "1.2.5"
+version = "1.2.6"
 authors = [{name = "Syize", email = "syizeliu@gmail.com"}]
 description = "A tool kit package"
-dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine", "cnmaps"]
+dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine"]
 
 [project.scripts]
 picture = "syize.picture_run:run"
