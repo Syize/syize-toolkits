@@ -1,9 +1,10 @@
-from rich import print as rprint
+from getopt import GetoptError, getopt
 from os import listdir
-from os.path import isdir
-from getopt import getopt, GetoptError
-from sys import exit, argv
-from syize.diff import diff
+from sys import argv, exit
+
+from rich import print as rprint
+
+from .diff import diff
 
 
 def help():

@@ -1,2 +1,4 @@
-from syize.picture import *
-from syize.plot import *
+from .diff import *
+from .picture import *
+from .plot import *
+from .string import *

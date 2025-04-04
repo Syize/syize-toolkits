@@ -1,18 +1,24 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = ["meson-python"]
+build-backend = "mesonpy"
 
 [project]
 name = "syize"
 version = "1.2.6"
+readme = "README.md"
+license = { text = "GPL-3.0-or-later" }
+requires-python = '>=3.10'
 authors = [{name = "Syize", email = "syizeliu@gmail.com"}]
+maintainers = [
+    { name = "Syize", email = "syizeliu@gmail.com" },
+]
 description = "A tool kit package"
 dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine"]
 
 [project.scripts]
-picture = "syize.picture_run:run"
-string = "syize.string_run:run"
-pydiff = "syize.diff_run:run"
+syize_pic = "syize.picture_run:run"
+syize_str = "syize.string_run:run"
+syize_diff = "syize.diff_run:run"
 
 [tool.poetry]
 readme = "README.md"
