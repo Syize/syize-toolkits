@@ -1,13 +1,12 @@
 py3.install_sources(
     [
         '__init__.py',
-        'diff.py',
-        'diff_run.py',
+        '_entry_picture.py',
+        '_entry_string.py',
         'picture.py',
-        'picture_run.py',
         'plot.py',
+        'run.py',
         'string.py',
-        'string_run.py',
         'utils.py',
     ],
     subdir: 'syize'

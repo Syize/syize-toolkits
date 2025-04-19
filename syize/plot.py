@@ -1,16 +1,16 @@
 from typing import Union
 
+import numpy as np
 from cartopy.mpl.geoaxes import GeoAxes
+from haversine import inverse_haversine
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from matplotlib.transforms import Bbox
-from haversine import inverse_haversine
-import numpy as np
 
 
 class OnResize:
     """
-    listen on figure resize event and change colorbar position and size dynamically
+    Listen on the figure resize event and change colorbar position and size dynamically
     """
     def __init__(self, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxes], tuple[Axes, Axes]], cax: Axes):
         self.ax = ax
@@ -63,10 +63,10 @@ class OnResize:
 
 
 def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxes], tuple[Axes, Axes]] = None,
-                     vertical=False, pad=0.09, width=0.02,
-                     position: Union[tuple[float, float, float, float], list[float, float, float, float]] = None) -> Axes:
+                     vertical=True, pad=0.02, width=0.02, position: Union[tuple[float, float, float, float], list[float]] = None) -> Axes:
     """
     Add cax to fig.
+
     :param fig: Matplotlib Figure object.
     :param ax: A single or two Axes(GeoAxes).
                For single Axes(GeoAxes), will add cax to the ax.
@@ -84,10 +84,12 @@ def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxe
             x1, y1 = ax[1].get_position().x1, ax[1].get_position().y1
         else:
             x0, y0, x1, y1 = ax.get_position().x0, ax.get_position().y0, ax.get_position().x1, ax.get_position().y1
-    elif position is not None:
+    elif isinstance(position, (tuple, list)):
+        if len(position) != 4:
+            raise ValueError(f"Expected 4 values in `position`, but got {len(position)}")
         x0, y0, x1, y1 = position
     else:
-        raise Exception('ax and position can\'t be None at the same time!')
+        raise ValueError('`ax` and `position` can\'t be None at the same time!')
     
     # add cax
     if not vertical:
@@ -101,19 +103,18 @@ def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxe
             x1 + pad + width, y1
         )
         
-    cax = fig.add_axes(cax1_position)
+    cax = fig.add_axes(cax1_position)   # type: ignore
     
     # add callback to make cax change size automatically
     if ax is not None:
         fig.canvas.mpl_connect("resize_event", OnResize(ax, cax))
-    else:
-        fig.canvas.mpl_connect("resize_event", OnResize(position, cax))
     return cax
 
 
 def get_lon_lat_range(central_lon: float, central_lat: float, distance: float) -> tuple[tuple, tuple]:
     """
-    calculate the range of longitude and latitude with specific center point and distance
+    Calculate the range of longitude and latitude with specific center point and distance
+
     :param central_lon: central longitude
     :param central_lat: central latitude
     :param distance: distance from center point to boundary. unit: kilometers

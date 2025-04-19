@@ -1,10 +1,10 @@
-from pytesseract import image_to_string
-from PIL import Image
-from os.path import exists
 from os import makedirs
-from pdf2image import convert_from_path
-from rich import print as rprint
+from os.path import exists
 
+from PIL import Image
+from pdf2image import convert_from_path
+from pytesseract import image_to_string
+from rich import print as rprint
 
 lang_dict = {
     'cn': 'sim',
@@ -14,14 +14,13 @@ lang_dict = {
 
 def picture_to_string(picture_path: str, text_type='cn') -> str:
     """
-    extract text from a picture
-    :param picture_path:
-    :param text_type:
+    Extract text from a picture.
+
+    :param picture_path: Picture path.
+    :param text_type: Text language. Valid key: ``["cn", "en"]``.
     :return:
     """
-    # check picture
     assert exists(picture_path), "Picture doesn't exist"
-    # check text type
     assert text_type in ['cn', 'en'], f"Unknown text type: {text_type}, supported type: ['cn, 'en']"
 
     image = Image.open(picture_path)
@@ -33,12 +32,13 @@ def picture_to_string(picture_path: str, text_type='cn') -> str:
 
 def pdf_to_picture(file_path: str, folder_path: str = './', start: int = None, end: int = None, dpi: int = None):
     """
-    convert pdf to image
-    :param file_path:
-    :param folder_path: default is ./
-    :param start:
-    :param end:
-    :param dpi:
+    Convert a PDF file to images.
+
+    :param file_path: PDF file path.
+    :param folder_path: Directory to store images.
+    :param start: Start page number.
+    :param end: End page number.
+    :param dpi: Image DPI.
     :return:
     """
     if folder_path is None:
