@@ -34,7 +34,8 @@ def entry_point():
     str_parser.add_argument("-o", "--output", type=str, default=None, help="Output file path. Default is stdout.")
     str_parser.set_defaults(func=entry_format_string)
 
-    args_parser.parse_args(args=None if sys.argv[1:] else ["--help"])
+    args = args_parser.parse_args(args=None if sys.argv[1:] else ["--help"])
+    args.func(args)
 
 
 __all__ = ["entry_point"]
