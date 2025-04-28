@@ -3,6 +3,7 @@ import sys
 
 from ._entry_picture import *
 from ._entry_string import *
+from ._entry_netcdf import *
 
 
 def entry_point():
@@ -33,6 +34,10 @@ def entry_point():
     str_parser.add_argument("-i", "--input", type=str, help="Input string or a file.", required=True)
     str_parser.add_argument("-o", "--output", type=str, default=None, help="Output file path. Default is stdout.")
     str_parser.set_defaults(func=entry_format_string)
+
+    netcdf_parser = subparsers.add_parser("nc", help="Parse a netcdf file and print its info.")
+    netcdf_parser.add_argument("-i", "--input", type=str, help="Input file.", required=True)
+    netcdf_parser.set_defaults(func=entry_parse_netcdf)
 
     args = args_parser.parse_args(args=None if sys.argv[1:] else ["--help"])
     args.func(args)
