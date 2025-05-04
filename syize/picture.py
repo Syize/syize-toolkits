@@ -27,6 +27,12 @@ def picture_to_string(picture_path: str, text_type='cn') -> str:
     lang = lang_dict[text_type]
     string = image_to_string(image, lang=lang)
 
+    if text_type == "cn":
+        # remove redundant white blank
+        string = "".join(string.split(" "))
+        # replace comma
+        string = string.replace(",", "，")
+
     return string
 
 
