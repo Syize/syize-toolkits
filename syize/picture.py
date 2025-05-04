@@ -7,7 +7,7 @@ from pytesseract import image_to_string
 from rich import print as rprint
 
 lang_dict = {
-    'cn': 'sim',
+    'cn': 'chi_sim',
     'en': 'eng'
 }
 
