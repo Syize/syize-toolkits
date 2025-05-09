@@ -13,7 +13,7 @@ maintainers = [
     { name = "Syize", email = "syizeliu@gmail.com" },
 ]
 description = "A tool kit package"
-dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine"]
+dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine", "pyside6"]
 
 [project.scripts]
 syize = "syize.run:entry_point"

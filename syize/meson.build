@@ -11,3 +11,5 @@ py3.install_sources(
     ],
     subdir: 'syize'
 )
+
+subdir('qt')
