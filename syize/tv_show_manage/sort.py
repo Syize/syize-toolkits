@@ -3,7 +3,7 @@ from os.path import exists
 from shutil import move
 
 from .rename import rename_episode_file
-from ..utils import logger
+from .utils import logger
 
 FEATURE_STRING_TUPLE = ("%d", "%HQH", "%HSJ", "%HSF")
 

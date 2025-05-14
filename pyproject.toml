@@ -16,7 +16,8 @@ description = "A tool kit package"
 dependencies =  ["Pillow", "pytesseract", "pdf2image", "rich", "matplotlib", "Cartopy", "haversine", "pyside6"]
 
 [project.scripts]
-syize = "syize.run:entry_point"
+syize = "syize.cli:entry_point"
+tvsm = "syize.cli:tvsm_entry_point"
 
 [tool.poetry]
 readme = "README.md"

@@ -4,9 +4,9 @@ py3.install_sources(
         '_entry_netcdf.py',
         '_entry_picture.py',
         '_entry_string.py',
+        'cli.py',
         'picture.py',
         'plot.py',
-        'run.py',
         'string.py',
         'utils.py',
     ],
@@ -14,3 +14,4 @@ py3.install_sources(
 )
 
 subdir('qt')
+subdir('tv_show_manage')

@@ -2,7 +2,7 @@ from os import listdir
 from os.path import exists
 from shutil import move
 
-from ..utils import logger
+from .utils import logger
 
 
 def rename_episode_file(prefix: str, force=False):
