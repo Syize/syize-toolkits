@@ -7,7 +7,7 @@ from pytesseract import image_to_string
 from rich import print as rprint
 
 lang_dict = {
-    'cn': 'sim',
+    'cn': 'chi_sim',
     'en': 'eng'
 }
 
@@ -26,6 +26,12 @@ def picture_to_string(picture_path: str, text_type='cn') -> str:
     image = Image.open(picture_path)
     lang = lang_dict[text_type]
     string = image_to_string(image, lang=lang)
+
+    if text_type == "cn":
+        # remove redundant white blank
+        string = "".join(string.split(" "))
+        # replace comma
+        string = string.replace(",", "，")
 
     return string
 

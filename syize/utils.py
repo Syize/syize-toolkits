@@ -4,12 +4,14 @@ from typing import Optional
 from rich.logging import RichHandler
 
 
-logger = logging.getLogger("wrfrun")
-formatter = logging.Formatter("%(name)s :: %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+# init a logger
+logger = logging.getLogger("syize")
+formatter = logging.Formatter("%(name)s :: %(message)s", datefmt="%m-%d %H:%M:%S")
 # use rich handler
 handler = RichHandler()
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 
 def to_file(contents: str, filename: Optional[str] = None):
