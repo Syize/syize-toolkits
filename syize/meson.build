@@ -4,6 +4,7 @@ py3.install_sources(
         '_entry_netcdf.py',
         '_entry_picture.py',
         '_entry_string.py',
+        '_entry_tvsm.py',
         'cli.py',
         'picture.py',
         'plot.py',

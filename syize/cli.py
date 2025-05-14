@@ -57,15 +57,15 @@ def tvsm_entry_point():
     sort_parser = subparsers.add_parser("sort", help="Identify episode files and sort them.")
     sort_parser.add_argument(
         "feature_str", type=str,
-        help="Feature strings help tvsm identify episode numbers. Should contain one of these strings: [%HQH, %d, %HSJ, %HSF].",
-        required=True
+        help="Feature strings help tvsm identify episode numbers. Should contain one of these strings: [%%HQH, %%d, %%HSJ, %%HSF].",
+        # required=True
     )
     sort_parser.add_argument("-s", "--start", type=int, default=1, help="Start number of the episode.")
     sort_parser.add_argument("-e", "--end", type=int, default=10, help="End number of the episode.")
     sort_parser.set_defaults(func=entry_sort_episode)
 
     rename_parser = subparsers.add_parser("rename", help="Rename episode files.")
-    rename_parser.add_argument("prefix", type=str, help="Prefix of the new file name. For example, 'Episode S01E01'.", required=True)
+    rename_parser.add_argument("prefix", type=str, help="Prefix of the new file name. For example, 'Episode S01E01'.")
     rename_parser.add_argument("-f", "--force", action="store_true", help="Overwrite existed files. BE CAREFUL.")
     rename_parser.set_defaults(func=entry_rename_episode_file)
 
