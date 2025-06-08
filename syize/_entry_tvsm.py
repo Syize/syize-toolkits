@@ -14,9 +14,10 @@ def entry_sort_episode(args: argparse.Namespace):
     """
     args = vars(args)
     feature_str = args["feature_str"]
+    season_num = args["season"]
     start = args["start"]
     end = args["end"]
-    sort_episode(feature_str, start, end)
+    sort_episode(feature_str, season_num, start, end)
 
 
 def entry_rename_episode_file(args: argparse.Namespace):
