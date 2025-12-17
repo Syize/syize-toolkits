@@ -5,13 +5,14 @@ from shutil import move
 from .rename import rename_episode_file
 from .utils import logger
 
-FEATURE_STRING_TUPLE = ("%d", "%0d", "%HQH", "%HSJ", "%HSF", "%LS")
+FEATURE_STRING_TUPLE = ("%d", "%0d", "%HQH", "%HSJ", "%HSF", "%LS", "%HSX")
 
 FEATURE_STRING_MAP = {
     "%HQH": ["前", "後"],
     "%HSJ": ["一", "二", "三", "四", "五", "六", "七", "八", "九", "十"],
     "%HSF": ["壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖", "拾"],
     "%LS": ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"],
+    "%HSX": ["上", "下"],
 }
 
 
