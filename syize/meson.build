@@ -16,3 +16,4 @@ py3.install_sources(
 
 subdir('qt')
 subdir('tv_show_manage')
+subdir('nc')

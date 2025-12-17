@@ -23,6 +23,8 @@ dependencies =  [
     "haversine",
     "pyside6",
     "prompt-toolkit>=3.0.52",
+    "xarray>=2025.6.1",
+    "netcdf4>=1.7.3",
 ]
 
 [project.scripts]
