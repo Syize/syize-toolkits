@@ -3,3 +3,6 @@ dist/
 main.py
 .idea/
 **/__pycache__/
+
+.python-version
+uv.lock
