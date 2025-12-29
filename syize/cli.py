@@ -5,6 +5,7 @@ from ._entry_netcdf import *
 from ._entry_picture import *
 from ._entry_string import *
 from ._entry_tvsm import *
+from .utils import list_meson_files
 
 
 def entry_point():
@@ -15,6 +16,9 @@ def entry_point():
     :rtype:
     """
     args_parser = argparse.ArgumentParser()
+    args_parser.add_argument("-l", "--list", action="store_true", help="List all files in current directory.")
+    args_parser.set_defaults(func=list_meson_files)
+    
     subparsers = args_parser.add_subparsers(title="Subcommands", description="Valid subcommands", help="Subcommands help.")
 
     ocr_parser = subparsers.add_parser("ocr", help="Extract texts from a picture.")
