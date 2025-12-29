@@ -40,7 +40,7 @@ def list_meson_files(args: argparse.Namespace):
     files.sort()
 
     for _file in files:
-        print(f'"{_file}",')
+        print(f"'{_file}',")
 
 
 __all__ = ['to_file', "logger", "list_meson_files"]
