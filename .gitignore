@@ -6,3 +6,4 @@ main.py
 
 .python-version
 uv.lock
+test.py
