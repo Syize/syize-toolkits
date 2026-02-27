@@ -12,11 +12,11 @@ def entry_sort_episode(args: argparse.Namespace):
     :return:
     :rtype:
     """
-    args = vars(args)
-    feature_str = args["feature_str"]
-    season_num = args["season"]
-    start = args["start"]
-    end = args["end"]
+    args_dict = vars(args)
+    feature_str = args_dict["feature_str"]
+    season_num = args_dict["season"]
+    start = args_dict["start"]
+    end = args_dict["end"]
     sort_episode(feature_str, season_num, start, end)
 
 
@@ -29,9 +29,9 @@ def entry_rename_episode_file(args: argparse.Namespace):
     :return:
     :rtype:
     """
-    args = vars(args)
-    prefix = args["prefix"]
-    force = args["force"]
+    args_dict = vars(args)
+    prefix = args_dict["prefix"]
+    force = args_dict["force"]
     rename_episode_file(prefix, force)
 
 

@@ -1,10 +1,11 @@
 import argparse
 import sys
 
-from ._entry_netcdf import *
-from ._entry_picture import *
-from ._entry_string import *
-from ._entry_tvsm import *
+from ._entry_fortran import entry_parse_fortran
+from ._entry_netcdf import entry_parse_netcdf
+from ._entry_picture import entry_pdf_to_picture, entry_picture_to_string
+from ._entry_string import entry_format_string
+from ._entry_tvsm import entry_rename_episode_file, entry_sort_episode
 
 
 def entry_point():
@@ -39,6 +40,12 @@ def entry_point():
     netcdf_parser = subparsers.add_parser("nc", help="Parse a netcdf file and print its info.")
     netcdf_parser.add_argument("-i", "--input", type=str, help="Input file.", required=True)
     netcdf_parser.set_defaults(func=entry_parse_netcdf)
+
+    fortran_parser = subparsers.add_parser("ft", help="Process Fortran code.")
+    fortran_parser.add_argument("-i", "--input", type=str, help="Input file.", required=True)
+    fortran_parser.add_argument("-o", "--output", type=str, help="Output file.")
+    fortran_parser.add_argument("-r", "--replace", action="store_true", help="Save changes in-place.")
+    fortran_parser.set_defaults(func=entry_parse_fortran)
 
     args = args_parser.parse_args(args=None if sys.argv[1:] else ["--help"])
     args.func(args)

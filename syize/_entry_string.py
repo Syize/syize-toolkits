@@ -1,7 +1,7 @@
 import argparse
 
-from .string import *
-from .utils import *
+from .string import format_string
+from .utils import to_file
 
 
 def entry_format_string(args: argparse.Namespace):
@@ -13,9 +13,9 @@ def entry_format_string(args: argparse.Namespace):
     :return:
     :rtype:
     """
-    args = vars(args)
-    res = format_string(args["input"])
-    to_file(res, args["output"])
+    args_dict = vars(args)
+    res = format_string(args_dict["input"])
+    to_file(res, args_dict["output"])
 
 
 __all__ = ["entry_format_string"]

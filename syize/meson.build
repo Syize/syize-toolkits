@@ -1,6 +1,7 @@
 py3.install_sources(
     [
         '__init__.py',
+        '_entry_fortran.py',
         '_entry_netcdf.py',
         '_entry_picture.py',
         '_entry_string.py',
@@ -17,3 +18,4 @@ py3.install_sources(
 subdir('qt')
 subdir('tv_show_manage')
 subdir('nc')
+subdir('fortran')

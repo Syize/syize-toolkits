@@ -14,8 +14,8 @@ def entry_parse_netcdf(args: argparse.Namespace):
     :return:
     :rtype:
     """
-    args = vars(args)
-    file_path = args["input"]
+    args_dict = vars(args)
+    file_path = args_dict["input"]
     file_path = abspath(file_path)
 
     if not exists(file_path):
