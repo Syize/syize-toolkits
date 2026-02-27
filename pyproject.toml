@@ -4,7 +4,7 @@ build-backend = "mesonpy"
 
 [project]
 name = "syize"
-version = "1.2.14"
+version = "1.2.15"
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
 requires-python = '>=3.10'
@@ -33,3 +33,16 @@ tvsm = "syize.cli:tvsm_entry_point"
 
 [tool.poetry]
 readme = "README.md"
+
+[tool.ruff]
+line-length = 130
+
+[tool.ruff.lint]
+select = ["D", "E", "F", "I"]
+ignore = ["F403", "D211", "D212", "D200", "D203", "D401", "D404", "D205", "D400", "D415"]
+
+[tool.pyright]
+include = ["syize"]
+pythonVersion = "3.10"
+pythonPlatform = "Linux"
+reportArgumentType = false
