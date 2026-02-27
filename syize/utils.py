@@ -1,4 +1,7 @@
+import argparse
 import logging
+from os import listdir
+from os.path import isdir
 from typing import Optional
 
 from rich.logging import RichHandler
@@ -31,4 +34,13 @@ def to_file(contents: str, filename: Optional[str] = None):
             f.write(contents)
 
 
-__all__ = ['to_file', "logger"]
+def list_meson_files(args: argparse.Namespace):
+    files = listdir()
+    files = [x for x in files if not isdir(x)]
+    files.sort()
+
+    for _file in files:
+        print(f'"{_file}",')
+
+
+__all__ = ['to_file', "logger", "list_meson_files"]

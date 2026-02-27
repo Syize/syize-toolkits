@@ -6,6 +6,7 @@ from ._entry_netcdf import entry_parse_netcdf
 from ._entry_picture import entry_pdf_to_picture, entry_picture_to_string
 from ._entry_string import entry_format_string
 from ._entry_tvsm import entry_rename_episode_file, entry_sort_episode
+from .utils import list_meson_files
 
 
 def entry_point():
@@ -16,6 +17,9 @@ def entry_point():
     :rtype:
     """
     args_parser = argparse.ArgumentParser()
+    args_parser.add_argument("-l", "--list", action="store_true", help="List all files in current directory.")
+    args_parser.set_defaults(func=list_meson_files)
+    
     subparsers = args_parser.add_subparsers(title="Subcommands", description="Valid subcommands", help="Subcommands help.")
 
     ocr_parser = subparsers.add_parser("ocr", help="Extract texts from a picture.")
