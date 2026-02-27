@@ -1,6 +1,6 @@
 project(
     'syize',
-    version: '1.2.15',
+    version: '1.2.16',
     license: 'GPL-3.0-or-later',
     meson_version: '>=0.64.0',
     default_options: ['warning_level=2'],

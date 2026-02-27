@@ -4,7 +4,7 @@ build-backend = "mesonpy"
 
 [project]
 name = "syize"
-version = "1.2.15"
+version = "1.2.16"
 readme = "README.md"
 license = { text = "GPL-3.0-or-later" }
 requires-python = '>=3.10'
