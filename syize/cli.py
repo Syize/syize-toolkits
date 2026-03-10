@@ -1,3 +1,17 @@
+"""
+syize.cli
+#########
+
+命令行主入口。``syize`` 提供两个命令行命令：``syize``以及``tvsm``，
+你可以分别运行``syize -h``和``tvsm -h``来获得帮助。
+
+.. autosummary::
+    :toctree: generated/
+
+    entry_point
+    tvsm_entry_point
+"""
+
 import argparse
 import sys
 
@@ -11,15 +25,12 @@ from .utils import list_meson_files
 
 def entry_point():
     """
-    Command line entry point.
-
-    :return:
-    :rtype:
+    ``syize`` command line entry point.
     """
     args_parser = argparse.ArgumentParser()
     args_parser.add_argument("-l", "--list", action="store_true", help="List all files in current directory.")
     args_parser.set_defaults(func=list_meson_files)
-    
+
     subparsers = args_parser.add_subparsers(title="Subcommands", description="Valid subcommands", help="Subcommands help.")
 
     ocr_parser = subparsers.add_parser("ocr", help="Extract texts from a picture.")
@@ -57,19 +68,19 @@ def entry_point():
 
 def tvsm_entry_point():
     """
-    tvsm command line entry point.
-
-    :return:
-    :rtype:
+    ``tvsm`` command line entry point.
     """
     args_parser = argparse.ArgumentParser()
     subparsers = args_parser.add_subparsers(title="Subcommands", description="Valid subcommands", help="Subcommands help.")
 
     sort_parser = subparsers.add_parser("sort", help="Identify episode files and sort them.")
     sort_parser.add_argument(
-        "feature_str", type=str,
-        help="Feature strings help tvsm identify episode numbers. Should contain one of these strings: [%%HQH, %%d, %%0d, %%HSJ, %%HSF, %%LS].",
-        # required=True
+        "feature_str",
+        type=str,
+        help=(
+            "Feature strings help tvsm identify episode numbers. "
+            "Should contain one of these strings: [%%HQH, %%d, %%0d, %%HSJ, %%HSF, %%LS]."
+        ),
     )
     sort_parser.add_argument("-S", "--season", type=int, default=1, help="Season number.")
     sort_parser.add_argument("-s", "--start", type=int, default=1, help="Start number of the episode.")

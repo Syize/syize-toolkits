@@ -4,6 +4,8 @@ main.py
 .idea/
 **/__pycache__/
 
+**/build/
+
 .python-version
 uv.lock
 test.py

@@ -1,3 +1,16 @@
+"""
+syize.string
+############
+
+用于处理字符串的相关工具。
+
+.. autosummary::
+    :toctree: generated/
+
+    remove_redundant_linebreak
+    format_string
+"""
+
 from os.path import exists
 
 
@@ -11,22 +24,22 @@ def remove_redundant_linebreak(string: str) -> str:
     :rtype:
     """
     # split by '\n'
-    string_list = string.split('\n')
+    string_list = string.split("\n")
     # print(string_list)
     res = []
     for words in string_list:
         # if is '', replace it with '\n'
-        if words == '':
+        if words == "":
             if len(res) > 0:
                 res[-1] = res[-1][:-1]
-            res.append('\n')
-        elif words[0].isupper() and (len(res) > 0 and res[-1] != '\n' and res[-1][-2] == '.'):
-            res.append('\n')
+            res.append("\n")
+        elif words[0].isupper() and (len(res) > 0 and res[-1] != "\n" and res[-1][-2] == "."):
+            res.append("\n")
             res.append(words)
         else:
-            res.append(words + ' ')
+            res.append(words + " ")
 
-    res = ''.join(res)
+    res = "".join(res)
 
     return res
 
@@ -48,4 +61,4 @@ def format_string(input_str: str) -> str:
     return res
 
 
-__all__ = ['remove_redundant_linebreak', "format_string"]
+__all__ = ["remove_redundant_linebreak", "format_string"]

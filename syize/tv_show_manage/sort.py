@@ -1,4 +1,16 @@
-from os import listdir, makedirs, chdir, getcwd
+"""
+syize.tv_show_manager.sort
+##########################
+
+用于对媒体库文件进行排序并重命名的工具。
+
+.. autosummary::
+    :toctree: generated/
+
+    sort_episode
+"""
+
+from os import chdir, getcwd, listdir, makedirs
 from os.path import exists
 from shutil import move
 
@@ -17,7 +29,26 @@ FEATURE_STRING_MAP = {
 
 
 def sort_episode(feature_str="第%HSJ章", season_num=1, start=1, end=10):
-    """Manage the shows automatically.
+    """
+    Manage the shows automatically.
+
+    The index of a media file will be extracted from ``feature_str``.
+
+    **Examples**
+
+    If you have some files like
+
+    * ``xxxxxxxxxx 第一 xxxxxxxxx.mp4``, ``xxxxxxxxxx 第一 xxxxxxxxx.srt``
+    * ``xxxxxxxxxx 第二 xxxxxxxxx.mp4``, ``xxxxxxxxxx 第二 xxxxxxxxx.srt``
+    * ...
+
+    >>> sort_episode(feature_str="第%HSJ")
+
+    Then these files will be like
+
+    * ``Episode S01E01.mp4``, ``Episode S01E01.srt``
+    * ``Episode S01E02.mp4``, ``Episode S01E02.srt``
+    * ...
 
     :param feature_str: Feature string that will be used to find the episode number, defaults to "第%HSJ章".
     :type feature_str: str, optional
@@ -38,7 +69,7 @@ def sort_episode(feature_str="第%HSJ章", season_num=1, start=1, end=10):
                 break
 
         if feature_string == "":
-            logger.info(f"Feature string not found, assume you don't give any feature string.")
+            logger.info("Feature string not found, assume you don't give any feature string.")
             logger.info(f"Use string '{feature_str}' to find the episode.")
             feature_string = feature_str
             normal_string = True
@@ -97,4 +128,4 @@ def sort_episode(feature_str="第%HSJ章", season_num=1, start=1, end=10):
             exit(0)
 
 
-__all__ = ["sort_episode"]
+__all__ = ["sort_episode", "FEATURE_STRING_TUPLE", "FEATURE_STRING_MAP"]

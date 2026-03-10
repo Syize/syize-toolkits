@@ -1,4 +1,8 @@
-from .fortran import *
-from .picture import *
-from .plot import *
-from .string import *
+"""
+syize
+#####
+"""
+
+from . import fortran, picture, plot, string
+
+__all__ = ["fortran", "picture", "plot", "string"]

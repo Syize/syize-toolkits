@@ -1,9 +1,22 @@
+"""
+syize.qt.downloader
+###################
+
+用于下载器的 Qt6 组件。
+
+.. autosummary::
+    :toctree: generated/
+
+    DownloadParams
+    Downloader
+"""
+
 from os import makedirs
 from os.path import exists
-from requests import get
-from typing import TypedDict, Optional
+from typing import Optional, TypedDict
 
 from PySide6.QtCore import QObject, Signal, Slot
+from requests import get
 
 from ..utils import logger
 
@@ -12,6 +25,7 @@ class DownloadParams(TypedDict):
     """
     Download parameters.
     """
+
     url: str
     headers: dict
     proxy: Optional[dict]
@@ -27,6 +41,9 @@ class Downloader(QObject):
     SignalDownloadFinish = Signal(bool)
 
     def __init__(self):
+        """
+        Backend downloader.
+        """
         super().__init__()
 
     # ######################### Slot Functions #########################

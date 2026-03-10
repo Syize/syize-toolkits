@@ -1,3 +1,10 @@
+"""
+syize.tv_show_manager.utils
+###########################
+
+初始化 ``tvsm`` 专用的 logger。
+"""
+
 import logging
 
 from rich.logging import RichHandler
