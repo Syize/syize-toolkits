@@ -23,18 +23,12 @@ def entry_parse_netcdf(args: argparse.Namespace):
         exit(1)
 
     try:
-        # dataset = xr.open_dataset(file_path)
-        # rich_print("[red]Coordinates in the dataset:[red]")
-        # rich_print(dataset.coords)
-        # rich_print("[red]Variables in the dataset:[red]")
-        # rich_print(dataset.data_vars)
-        
         NCView(file_path).interact()
 
     except ValueError:
         logger.error(f"Can't parse the giving file: {file_path}")
         exit(1)
-        
+
     except KeyboardInterrupt:
         exit(0)
 

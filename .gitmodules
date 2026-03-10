@@ -1,0 +1,3 @@
+[submodule "syize/fortran/palm"]
+	path = syize/fortran/palm
+	url = https://github.com/Syize/palm-test.git

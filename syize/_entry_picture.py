@@ -30,7 +30,13 @@ def entry_pdf_to_picture(args: argparse.Namespace):
     :rtype:
     """
     args_dict = vars(args)
-    pdf_to_picture(args_dict["input"], folder_path=args_dict["output"], start=args_dict["start"], end=args_dict["end"], dpi=args_dict["dpi"])
+    pdf_to_picture(
+        args_dict["input"],
+        folder_path=args_dict["output"],
+        start=args_dict["start"],
+        end=args_dict["end"],
+        dpi=args_dict["dpi"],
+    )
 
 
 __all__ = ["entry_picture_to_string", "entry_pdf_to_picture"]

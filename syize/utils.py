@@ -1,3 +1,16 @@
+"""
+syize.utils
+###########
+
+工具工具函数 :)。
+
+.. autosummary::
+    :toctree: generated/
+
+    to_file
+    list_meson_files
+"""
+
 import argparse
 import logging
 from os import listdir
@@ -30,11 +43,17 @@ def to_file(contents: str, filename: Optional[str] = None):
     if filename is None:
         print(contents)
     else:
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             f.write(contents)
 
 
 def list_meson_files(args: argparse.Namespace):
+    """
+    List files in current directory, and print them in the form which can be pasted to meson.build.
+
+    :param args: Parsed args.
+    :type args: argparse.Namespace
+    """
     files = listdir()
     files = [x for x in files if not isdir(x)]
     files.sort()
@@ -43,4 +62,4 @@ def list_meson_files(args: argparse.Namespace):
         print(f"'{_file}',")
 
 
-__all__ = ['to_file', "logger", "list_meson_files"]
+__all__ = ["to_file", "logger", "list_meson_files"]

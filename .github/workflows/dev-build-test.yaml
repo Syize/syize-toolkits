@@ -1,0 +1,50 @@
+name: Build Python Package on Dev Branch
+run-name: Building Python package
+on:
+  push:
+    branches:
+      - 'dev'
+
+env:
+  CIBW_BEFORE_BUILD: "pip install meson ninja"
+
+jobs:
+  release-build:
+    name: Build Python Package on ${{ matrix.os }}
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Check out repository code of master branch
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.4.0
+        env:
+          CIBW_SKIP: "*-musllinux*"
+          CIBW_BEFORE_ALL_LINUX: "dnf config-manager --set-enabled powertools && dnf install -y netcdf-fortran-devel netcdf gcc-gfortran"
+          CIBW_BEFORE_BUILD: "pip install meson"
+        with:
+          platform: linux
+
+      - name: upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-dist
+          path: ./wheelhouse/*.whl
+
+      - name: Install system dependencies
+        run: sudo apt update && sudo apt install -y ninja-build libpython3-dev gfortran libnetcdff7 libnetcdff-dev
+
+      - name: Install dependencies
+        run: python -m pip install build
+
+      - name: Build sdist
+        run: python -m build --sdist
+
+      - name: upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-dist
+          path: dist/

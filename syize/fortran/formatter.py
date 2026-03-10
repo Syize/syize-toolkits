@@ -1,3 +1,15 @@
+"""
+syize.fortran.formatter
+#######################
+
+该模块提供 :class:`CommentFormatter` 来格式化 Fortran 中的注释，使其正确的进行缩进。
+
+.. autosummary::
+    :toctree: generated/
+
+    CommentFormatter
+"""
+
 import logging
 from os.path import basename, dirname
 from shutil import move
@@ -9,6 +21,7 @@ class CommentFormatter:
     """
     Class to format comments in Fortran.
     """
+
     def __init__(self, out_file: None | str = None, in_place=False) -> None:
         """
         You have to give either ``out_file`` or ``in_place=True``.
@@ -44,16 +57,16 @@ class CommentFormatter:
         else:
             LOGGER.error("You have to either set [magenta]in_place[/] or give out file path.")
             exit(1)
-        
+
         self._buffer_list: list[str] = []
         self._buffer = ""
         self._indent = 0
 
         self._is_inspecting_indentation = False
-    
+
     def format(self, file_path: str):
         """
-        Format the comment in ``file_path``. 
+        Format the comment in ``file_path``.
 
         :param file_path: Input file path.
         :type file_path: str
@@ -120,4 +133,3 @@ class CommentFormatter:
 
 
 __all__ = ["CommentFormatter"]
-            

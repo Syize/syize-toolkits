@@ -1,3 +1,15 @@
+"""
+syize.nc.nc
+###########
+
+用于查看 NetCDF 数据的工具。
+
+.. autosummary::
+    :toctree: generated/
+
+    NCView
+"""
+
 import logging
 from os.path import exists
 from pprint import pformat
@@ -11,22 +23,30 @@ LOGGER = logging.getLogger("syize")
 
 
 class NCView:
+    """
+    Class to view variables and attributes in NetCDF file quickly.
+    """
+
     def __init__(self, data_path: str):
+        """
+        :param data_path: NetCDF data path.
+        :type data_path: str
+        """
         if not exists(data_path):
             LOGGER.error(f"File not exists: {data_path}")
             exit(1)
-            
+
         try:
             self.dataset = xr.open_dataset(data_path, decode_timedelta=False)
-            
+
         except ValueError:
             LOGGER.error(f"Failed to read data: {data_path}.")
             LOGGER.error("Check if it is a NetCDF data.")
             exit(1)
-            
+
         self.completer = WordCompleter(["help", "quit", "attrs", "coords", "data", "vars"], ignore_case=True)
         self.session = PromptSession(message=">>> ", completer=self.completer)
-            
+
     def _help(self):
         print("[red]You are in the interactive mode of syize.NCView.")
         print("")
@@ -44,64 +64,67 @@ class NCView:
         print("\t[green]vars            [blue]print variables list.")
         print("")
         print("[red]You can type `help` or `h` to see this message again.")
-        
+
     def exec_command(self, field: str):
+        """
+        Exec command from the user.
+        """
         field_list = field.split(".")
-        
+
         if len(field_list) < 2:
-            
             if field_list[0] == "data":
                 print(self.dataset)
-                
+
             elif field_list[0] == "attrs":
                 print(pformat(self.dataset.attrs))
-                
+
             elif field_list[0] == "vars":
                 print(self.dataset.data_vars)
-                
+
             elif field_list[0] == "coords":
                 print(self.dataset.coords)
-                
+
             else:
                 print(self.dataset[field])
-                
+
         else:
             if field_list[-1] == "data":
                 print(self.dataset[field_list[0]].to_numpy())
-                
+
             elif field_list[-1] == "attr":
                 print(pformat(self.dataset[field_list[0]].attrs))
-                
+
             else:
                 print(f"[red]Unknow attributes: {field_list[-1]}")
-        
-            
+
     def interact(self):
+        """
+        Enter interact environment.
+        """
         exit_flag = False
         self._help()
-        
+
         while not exit_flag:
-            
             field = self.session.prompt()
             field = str(field).strip()
-            
+
             if field in ["help", "h"]:
                 self._help()
-                
+
             elif field in ["quit", "q"]:
                 exit_flag = True
-                
+
             elif field == "":
                 pass
-                
+
             else:
                 try:
                     self.exec_command(field)
-                    
+
                 except (ValueError, KeyError):
                     print(f"[red]Field name error: {field}")
-        
+
         exit(0)
-        
-        
+
+
 __all__ = ["NCView"]

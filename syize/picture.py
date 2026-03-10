@@ -1,18 +1,28 @@
+"""
+syize.picture
+#############
+
+用于图片处理的相关工具。
+
+.. autosummary::
+    :toctree: generated/
+
+    picture_to_string
+    pdf_to_picture
+"""
+
 from os import makedirs
 from os.path import exists
 
-from PIL import Image
 from pdf2image import convert_from_path
+from PIL import Image
 from pytesseract import image_to_string
 from rich import print as rprint
 
-lang_dict = {
-    'cn': 'chi_sim',
-    'en': 'eng'
-}
+lang_dict = {"cn": "chi_sim", "en": "eng"}
 
 
-def picture_to_string(picture_path: str, text_type='cn') -> str:
+def picture_to_string(picture_path: str, text_type="cn") -> str:
     """
     Extract text from a picture.
 
@@ -21,7 +31,7 @@ def picture_to_string(picture_path: str, text_type='cn') -> str:
     :return:
     """
     assert exists(picture_path), "Picture doesn't exist"
-    assert text_type in ['cn', 'en'], f"Unknown text type: {text_type}, supported type: ['cn, 'en']"
+    assert text_type in ["cn", "en"], f"Unknown text type: {text_type}, supported type: ['cn, 'en']"
 
     image = Image.open(picture_path)
     lang = lang_dict[text_type]
@@ -36,7 +46,7 @@ def picture_to_string(picture_path: str, text_type='cn') -> str:
     return string
 
 
-def pdf_to_picture(file_path: str, folder_path: str = './', start: int = None, end: int = None, dpi: int = None):
+def pdf_to_picture(file_path: str, folder_path: str = "./", start: int = None, end: int = None, dpi: int = None):
     """
     Convert a PDF file to images.
 
@@ -52,7 +62,7 @@ def pdf_to_picture(file_path: str, folder_path: str = './', start: int = None, e
     if not exists(folder_path):
         makedirs(folder_path)
     rprint(f"[red]Converting to image and saving to {folder_path} ...[red]")
-    return convert_from_path(file_path, output_folder=folder_path, fmt='png', first_page=start, last_page=end, dpi=dpi)
+    return convert_from_path(file_path, output_folder=folder_path, fmt="png", first_page=start, last_page=end, dpi=dpi)
 
 
-__all__ = ['picture_to_string', 'pdf_to_picture']
+__all__ = ["picture_to_string", "pdf_to_picture"]

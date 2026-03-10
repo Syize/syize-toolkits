@@ -1,3 +1,17 @@
+"""
+syize.plot
+##########
+
+用于绘图的相关工具。
+
+.. autosummary::
+    :toctree: generated/
+
+    OnResize
+    prepare_colorbar
+    get_lon_lat_range
+"""
+
 from typing import Union
 
 import numpy as np
@@ -10,8 +24,9 @@ from matplotlib.transforms import Bbox
 
 class OnResize:
     """
-    Listen on the figure resize event and change colorbar position and size dynamically
+    Listen on the figure resize event and change colorbar position and size dynamically.
     """
+
     def __init__(self, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxes], tuple[Axes, Axes]], cax: Axes):
         self.ax = ax
         self.cax = cax
@@ -43,34 +58,72 @@ class OnResize:
     def __call__(self, event):
         # get ax new position so we can change cax's position
         if isinstance(self.ax, tuple):
-            x0, y0, x1, y1 = self.ax[0].get_position().x0, self.ax[0].get_position().y0, self.ax[1].get_position().x1, self.ax[1].get_position().y1
+            x0, y0, x1, y1 = (
+                self.ax[0].get_position().x0,
+                self.ax[0].get_position().y0,
+                self.ax[1].get_position().x1,
+                self.ax[1].get_position().y1,
+            )
         else:
             ax_position = self.ax.get_position()
             x0, y0, x1, y1 = ax_position.x0, ax_position.y0, ax_position.x1, ax_position.y1
 
         if not self.vertical:
-            cax1_position = Bbox.from_extents(
-                x0, y0 - self.padding - self.width,
-                x1, y0 - self.padding
-            )
+            cax1_position = Bbox.from_extents(x0, y0 - self.padding - self.width, x1, y0 - self.padding)
         else:
-            cax1_position = Bbox.from_extents(
-                x1 + self.padding, y0,
-                x1 + self.padding + self.width, y1
-            )
+            cax1_position = Bbox.from_extents(x1 + self.padding, y0, x1 + self.padding + self.width, y1)
 
         self.cax.set_position(cax1_position)
 
 
-def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxes], tuple[Axes, Axes]] = None,
-                     vertical=True, pad=0.02, width=0.02, position: Union[tuple[float, float, float, float], list[float]] = None) -> Axes:
+def prepare_colorbar(
+    fig: Figure,
+    ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxes], tuple[Axes, Axes]] = None,
+    vertical=True,
+    pad=0.02,
+    width=0.02,
+    position: Union[tuple[float, float, float, float], list[float]] = None,
+) -> Axes:
     """
-    Add cax to fig.
+    Add a cax to the figure, which will stick to the Axes with the same width or height.
+
+    **For example**
+
+    1. Add a vertical colorbar.
+
+    >>> import matplotlib.pyplot as plt
+    >>> from syize.plot import prepare_colorbar
+    >>> fig = plt.figure()
+    >>> ax = fig.add_subplot(111)
+    >>> im = ...    # plot your image
+    >>> cax = prepare_colorbar(fig, ax)
+    >>> cbar = fig.colorbar(im, cax=cax)
+
+    2. Add a horizontal colorbar.
+
+    >>> import matplotlib.pyplot as plt
+    >>> from syize.plot import prepare_colorbar
+    >>> fig = plt.figure()
+    >>> ax = fig.add_subplot(111)
+    >>> im = ...    # plot your image
+    >>> cax = prepare_colorbar(fig, ax, vertical=False)
+    >>> cbar = fig.colorbar(im, cax=cax)
+
+    3. Change colorbar's pad or width.
+
+    >>> import matplotlib.pyplot as plt
+    >>> from syize.plot import prepare_colorbar
+    >>> fig = plt.figure()
+    >>> ax = fig.add_subplot(111)
+    >>> im = ...    # plot your image
+    >>> cax = prepare_colorbar(fig, ax, pad=0.04, width=0.04)
+    >>> cbar = fig.colorbar(im, cax=cax)
 
     :param fig: Matplotlib Figure object.
     :param ax: A single or two Axes(GeoAxes).
                For single Axes(GeoAxes), will add cax to the ax.
-               For two Axes(GeoAxes), which should be the left-bottom and right-top ax of an ax group, will add cax to the ax group.
+               For two Axes(GeoAxes), which should be the left-bottom and right-top ax of an ax group,
+               will add cax to the ax group.
     :param vertical: If the cax is vertical.
     :param pad: The distance length between cax and ax (group).
     :param width: The width of the cax.
@@ -89,22 +142,16 @@ def prepare_colorbar(fig: Figure, ax: Union[GeoAxes, Axes, tuple[GeoAxes, GeoAxe
             raise ValueError(f"Expected 4 values in `position`, but got {len(position)}")
         x0, y0, x1, y1 = position
     else:
-        raise ValueError('`ax` and `position` can\'t be None at the same time!')
-    
+        raise ValueError("`ax` and `position` can't be None at the same time!")
+
     # add cax
     if not vertical:
-        cax1_position = Bbox.from_extents(
-            x0, y0 - pad - width,
-            x1, y0 - pad
-        )
+        cax1_position = Bbox.from_extents(x0, y0 - pad - width, x1, y0 - pad)
     else:
-        cax1_position = Bbox.from_extents(
-            x1 + pad, y0,
-            x1 + pad + width, y1
-        )
-        
-    cax = fig.add_axes(cax1_position)   # type: ignore
-    
+        cax1_position = Bbox.from_extents(x1 + pad, y0, x1 + pad + width, y1)
+
+    cax = fig.add_axes(cax1_position)  # type: ignore
+
     # add callback to make cax change size automatically
     if ax is not None:
         fig.canvas.mpl_connect("resize_event", OnResize(ax, cax))
@@ -128,4 +175,4 @@ def get_lon_lat_range(central_lon: float, central_lat: float, distance: float) -
     return (lon1, lon2), (lat1, lat2)
 
 
-__all__ = ['prepare_colorbar', 'get_lon_lat_range']
+__all__ = ["prepare_colorbar", "get_lon_lat_range"]
