@@ -12,24 +12,41 @@ jobs:
     steps:
       - name: Check out repository code of master branch
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
-      - name: Install compiler
-        run: sudo apt update && sudo apt install -y ninja-build libpython3-dev
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v3.4.0
+        env:
+          CIBW_SKIP: "*-musllinux*"
+          CIBW_BEFORE_ALL_LINUX: "dnf config-manager --set-enabled powertools && dnf install -y netcdf-fortran-devel netcdf gcc-gfortran"
+          CIBW_BEFORE_BUILD: "pip install meson"
+        with:
+          platform: linux
+
+      - name: Upload wheels
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheels-dist
+          path: ./wheelhouse/*.whl
+
+      - name: Install system dependencies
+        run: sudo apt update && sudo apt install -y ninja-build libpython3-dev gfortran libnetcdff7 libnetcdff-dev
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install build twine meson
+        run: pip install build meson
 
-      - name: Build Python Package
-        run: python -m build --sdist ${{ github.workspace }}
+      - name: Build source dist
+        run: python -m build --sdist
 
-      - name: upload windows dists
+      - name: Upload source dist
         uses: actions/upload-artifact@v4
         with:
-          name: release-dists
+          name: source-dist
           path: dist/
 
   pypi-publish:
@@ -41,13 +58,25 @@ jobs:
       id-token: write
 
     steps:
-      - name: Retrieve release distributions
+      - name: Retrieve source dist
         uses: actions/download-artifact@v4
         with:
-          name: release-dists
+          name: source-dist
           path: dist/
 
-      - name: Publish release distributions to PyPI
+      - name: Retrieve wheels dist
+        uses: actions/download-artifact@v4
+        with:
+          name: wheels-dist
+          path: wheelhouse/
+
+      - name: Publish source distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1.12
         with:
           verbose: true
+
+      - name: Publish wheels distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1.12
+        with:
+          verbose: true
+          packages-dir: wheelhouse/

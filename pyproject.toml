@@ -1,5 +1,5 @@
 [build-system]
-requires = ["meson-python"]
+requires = ["meson-python", "numpy", "charset_normalizer"]
 build-backend = "mesonpy"
 
 [project]
@@ -25,6 +25,7 @@ dependencies =  [
     "prompt-toolkit>=3.0.52",
     "xarray>=2025.6.1",
     "netcdf4>=1.7.3",
+    "numpy>=1.21",
 ]
 
 [project.scripts]
@@ -46,3 +47,8 @@ include = ["syize"]
 pythonVersion = "3.10"
 pythonPlatform = "Linux"
 reportArgumentType = false
+
+[dependency-groups]
+dev = [
+    "build>=1.4.0",
+]
